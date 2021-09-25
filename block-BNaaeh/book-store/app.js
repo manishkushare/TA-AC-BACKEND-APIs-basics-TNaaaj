@@ -7,7 +7,8 @@ var mongoose = require('mongoose');
 var indexRouter = require('./routes/index');
 var v1BooksRouter = require('./routes/v1Books');
 var v2BooksRouter = require('./routes/v2Books');
-var v1CommentsRouter = require('./routes/v1Comments')
+var v1CommentsRouter = require('./routes/v1Comments');
+var v3BooksRouter = require('./routes/v3Books');
 
 mongoose.connect('mongodb://localhost/book-store-api', (err)=> {
   console.log(err? err: "Connected to database");
@@ -28,6 +29,7 @@ app.use('/api/', indexRouter);
 app.use('/api/v1/books', v1BooksRouter);
 app.use('/api/v2/books', v2BooksRouter);
 app.use('/api/v1/comments', v1CommentsRouter);
+app.use('/api/v3/books', v3BooksRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

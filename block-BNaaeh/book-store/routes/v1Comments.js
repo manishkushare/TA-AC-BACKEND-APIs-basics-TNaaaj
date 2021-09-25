@@ -1,3 +1,4 @@
+const { closeDelimiter } = require('ejs');
 var express = require('express');
 var router = express.Router();
 var Comments = require('../models/V1Comments')
@@ -15,10 +16,11 @@ router.put('/:id', async (req,res,next)=> {
 
 router.delete('/:id', async (req,res,next)=> {
     try {
-        const id = req.params.id;
+        const id = req.params.id;   
         var deletedComment = await Comments.findByIdAndDelete(id);
-        console.log(deletedComment);
-        var updatedBooks = await Books.findByIdAndUpdate(deletedComment.bookRef, {$pull : {commentId : id}})
+        deletedComment =await deletedComment.populate("bookRef");
+        console.log("populated data :", deletedComment);
+        var updatedBooks = await Books.findByIdAndUpdate(deletedComment.bookRef.id, {$pull : {commentsId : id}})
         res.status(200).json({deletedComment,updatedBooks});
     } catch (error) {
         next(error);
